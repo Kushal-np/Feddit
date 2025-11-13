@@ -2,7 +2,7 @@ import { z } from "zod"; // for validaton
 
 //This whole file will be the schema details of the main mongodb schema and checking will be done here
 //check for the retardusername
-const retardnameSchema = z
+export const retardnameSchema = z
     .string()
     .min(3, "Retardname must be at least 3 characters long")
     .max(15, "Retardname must not exceed 15 characters")
