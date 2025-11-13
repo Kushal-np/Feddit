@@ -2,7 +2,7 @@ import {Request} from "express";
 import { JwtPayload } from "jsonwebtoken";
 //Extending the Auth Request with all the express requests types
 export interface AuthRequest<P=any , ResBody = any , ReqBody = any , ReqQuery = any> extends Request<P , ResBody , ReqBody , ReqQuery>{
-    user?:{
+    retard?:{
         id:string;
     };
 }
