@@ -70,6 +70,7 @@ export interface IRetardResponse {
     lie:string;
     avatarUrl:string;
     bannerUrl:string;
+    drama:IDrama;
     goonersCount:number;
     gooningCount:number;
     isVerified:boolean;
