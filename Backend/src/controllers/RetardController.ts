@@ -267,6 +267,7 @@ export const loginUser = async (req: Request<{}, {}, LoginInput>, res: Response)
     res.status(500).json({
       success: false,
       message: "Login failed, please try again",
+      error:(error as Error).message
     });
   }
 };
