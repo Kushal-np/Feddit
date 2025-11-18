@@ -9,8 +9,8 @@ interface EmailOptions{
 const transporter = nodemailer.createTransport({
     service:"gmail",
     auth:{
-        user:process.env.EMAIL_ID ,
-        pass:process.env.PASS_ID,
+        user:process.env.EMAIL_ID! ,
+        pass:process.env.PASS_ID!,
     },
 });
 

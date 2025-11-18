@@ -27,8 +27,7 @@ const passwordSchema = z
 // this schema is for the OTP function , we are likely to send only exactly 6 digit otp
 const otpSchema = z
     .string()
-    .length(6 , "OTP must be only 6 digits")
-    .regex(/^\d{6}$/, "OTP must contain only numbers"); // Regex check so that only 6 i.e also number only
+    .length(5 , "OTP must be only 6 digits")
 
 
 //WE will implemet the Auth Function {Controller} schema now
@@ -52,12 +51,11 @@ export const loginSchema = z.object({
 
 
 //This will be for the otp verification step now, it will only be in case if the O auth is being used
-export const verifyOtpSchema = z.object({
-    body:z.object({
+export const verifyOtpSchema =z.object({
         email:emailSchema,//Reference from the other file
         otp:otpSchema,// reference from above , the otp verify function already written one
-    }),
-});
+    });
+
 
 
 //This will be for the reset password function , it will be done only after logging in otherwise it shoudn't be accessible
@@ -78,6 +76,6 @@ export const confirmResetSchema = z.object({
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>["body"];
-export type VerifyOtpInput = z.infer<typeof verifyOtpSchema>["body"];
+export type VerifyOtpInput = z.infer<typeof verifyOtpSchema>;
 export type resetPasswordSchema = z.infer<typeof resetPasswordSchema>["body"];
 export type ConfirmResetInput = z.infer<typeof confirmResetSchema>["body"];

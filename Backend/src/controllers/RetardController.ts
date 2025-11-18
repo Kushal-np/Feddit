@@ -3,9 +3,9 @@ import Retard from "../models/Retard";
 import { AuthRequest } from "../types";
 import type { IRetardResponse } from "../types/Retard/Retard";
 import type { IRetard } from "../types/Retard/Retard";
-
+import bcrypt from "bcryptjs"
 import { UpdateRetardInput, updatePreferencesInput } from "../validators/Retard/RetardSchema";
-import { RegisterInput } from "../validators/Retard/authSchema";
+import { LoginInput, RegisterInput, VerifyOtpInput } from "../validators/Retard/authSchema";
 import { generateOtp } from "../utils/generateOtp";
 import { emailTemplates } from "../utils/emailTemplates";
 import { sendEmail } from "../utils/emailServices";
@@ -111,5 +111,95 @@ export const registerUser = async (req: Request<{}, {}, RegisterInput>, res: Res
             success: false,
             error: "Registration failed. Please try again."
         });
+    }
+}
+
+export const verifyOtp = async(req:Request<{} , {} , VerifyOtpInput> , res:Response):Promise<void> =>{
+    try{
+        
+        const {email , otp} = req.body ; 
+        console.log(email , otp)
+        const retard: IRetard   = await Retard.findOne({email}).select("+otp +otpExpiry");
+        if(!retard){
+            res.status(400).json({
+                success:false , 
+                message:"User not found"
+            })
+            return ; 
+        }
+        if(retard?.isVerified){
+            res.status(400).json({
+                success:false , 
+                message:"User is already verified"
+            })
+            return ;
+        }
+        if(!retard.otp || !retard.otpExpiry){
+            res.status(400).json({
+                success:false , 
+                message:"No OTP found , please try again later" , 
+            })
+            return ; 
+        }
+        if(retard.otp != otp){
+            res.status(400).json({
+                success:false , 
+                message:"The otp doesn't match , Invalid OTP"
+            })
+        }
+        if(retard.otpExpiry < new Date()){
+            res.status(400).json({
+                success:false , 
+                message:"OTP is expired",
+            })
+            return ; 
+        }
+
+        retard.isVerified = true ; 
+        retard.otp = null ; 
+        retard.otpExpiry = null ; 
+        await retard.save();
+
+        res.status(200).json({
+            success:true , 
+            message:"Email verified successfully ! You can now log in" , 
+            data:{
+                email: retard.email , 
+                retardname : retard.retardname ,
+                isVerified:true , 
+            }
+        });
+
+    }
+    catch(error){
+        console.error("Verification error" , error);
+        res.status(500).json({
+            success:false , 
+            error:"Verification failed , Please try again later"
+        })
+    }
+};
+
+export const loginUser = async(req:Request<{} , {} , LoginInput> , res:Response) : Promise<void> =>{
+    try{
+        const {email , password} = req.body ; 
+        const retard   = await Retard.find({email}).select("-passwordHash");
+        if(!retard.passwordHash){
+            res.status(400).json({
+                success:false , 
+                message: "This account uses O Auth login , You can't login from here"
+
+            })
+        }
+        const ifPasswordIsMatched = await bcrypt.compare(password , passwordHash);
+        if(!ifPasswordIsMatched){
+            res.status(400).json({
+                success:false , 
+                message:"Invalid Credentials" , 
+            })
+        }
+    }
+    catch(error){
+
     }
 }

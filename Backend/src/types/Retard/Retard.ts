@@ -50,10 +50,10 @@ export interface IRetard extends Document {
     preferences:IRetardPreferences;
     refreshTokens:string[];
     oauthProviders:IOAuthProvideres;
-    isBanned:boolean;
+    isBanned:boolean ;
     isVerified:boolean;
-    otp?:string;
-    otpExpiry?:Date;
+    otp?:string | null;
+    otpExpiry?:Date | null;
     createdAt:Date;
     updatedAt:Date;
     matchPassword(enteredPassword:string):Promise<boolean>;

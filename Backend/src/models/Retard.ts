@@ -139,9 +139,10 @@ const retardSchema = new Schema<IRetard>(
             type: Boolean,
             default: false,
         },
-        otp: {
+        otp : {
             type: String,
             select: false,
+            
         },
         otpExpiry: {
             type: Date,
