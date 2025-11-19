@@ -5,38 +5,32 @@ import Homepage from "./pages/HomePage/Layout";
 import SideBar from "./Components/SideBar/SideBar";
 import FeedPage from "./Components/FeedComponent/FeedPage";
 import RightBar from "./Components/RightBar/RightBar";
+import SignupPage from "./pages/AuthPages/SignupPage";
+import LoginPage from "./pages/AuthPages/LoginPage";
+import PageDoesntExist from "./pages/Error/PageDoesntExist";
 
 const App: React.FC = () => {
   return (
+    
     <div className="h-screen flex flex-col bg-black text-white">
 
-      {/* 🔹 Navbar (full width) */}
-      <div className="border-b border-gray-700 p-3">
-        <Navigation />
-      </div>
 
-      {/* 🔹 Main layout (Sidebar - Feed - Rightbar) */}
-      <div className="flex flex-1">
 
-        {/* Sidebar */}
-        <div className="w-[20%] border-r border-gray-700 p-3">
-          <SideBar />
-        </div>
+   
 
-        {/* Feed (center part where pages load) */}
-        <div className="flex-1 p-3 overflow-y-auto">
           <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/feed" element={<FeedPage />} />
+              <Route path="/signup" element={<SignupPage/>} />
+              <Route path="/login" element={<LoginPage/>} />
+            <Route path="/" element={<Homepage />} >
+              {/* <Route path="/login" element={<LoginPage/>} /> */}
+              <Route index path="feed" element={<FeedPage/>}/>
+            </Route>
+              <Route path="*" element={<PageDoesntExist/>} />
+              
           </Routes>
-        </div>
 
-        {/* Rightbar */}
-        <div className="w-[20%] border-l border-gray-700 p-3">
-          <RightBar />
-        </div>
+ 
 
-      </div>
     </div>
   );
 };
