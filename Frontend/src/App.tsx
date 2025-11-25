@@ -4,7 +4,8 @@ import Homepage from "./pages/HomePage/Layout";
 import FeedPage from "./Components/FeedComponent/FeedPage";
 import SignupPage from "./pages/AuthPages/SignupPage";
 import LoginPage from "./pages/AuthPages/LoginPage";
-import PageDoesntExist from "./pages/Error/PageDoesntExist";
+import SRKTaskLanding from "./pages/Error/PageDoesntExist";
+import SRKAPP from "./SRK/SRKAPP";
 
 const App: React.FC = () => {
   return (
@@ -16,7 +17,8 @@ const App: React.FC = () => {
           <Route index element={<FeedPage />} />
           <Route path="feed" element={<FeedPage />} />
         </Route>
-        <Route path="*" element={<PageDoesntExist />} />
+        <Route path="*" element={<SRKTaskLanding />} />
+        <Route path ="/srkApp" element={<SRKAPP/>} />
       </Routes>
     </div>
   );

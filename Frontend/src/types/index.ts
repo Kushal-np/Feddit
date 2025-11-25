@@ -26,7 +26,7 @@ export interface Retard {
 }
 
 
-export interafce AuthState { 
+export interface AuthState { 
     retard : Retard | null ; 
     loading : boolean ;    
     error:string | null ; 
